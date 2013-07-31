@@ -33,6 +33,20 @@
 
 extern XEXT_FIND_DISPLAY_PROTO(xp_find_display);
 
+#ifndef HAVE__XEATDATAWORDS
+#include <X11/Xmd.h>  /* for LONG64 on 64-bit platforms */
+#include <limits.h>
+
+static inline void _XEatDataWords(Display *dpy, unsigned long n)
+{
+# ifndef LONG64
+    if (n >= (ULONG_MAX >> 2))
+        _XIOError(dpy);
+# endif
+    _XEatData (dpy, n << 2);
+}
+#endif
+
 extern int XpCheckExtInit(
     Display * /* dpy */,
     int       /* version_index */

@@ -1,3 +1,9 @@
+libxp (1:1.0.0.xsf1-2+squeeze1) oldstable-security; urgency=low
+
+  * CVE-2013-2062
+
+ -- Moritz Muehlenhoff <jmm@debian.org>  Sat, 18 May 2013 21:19:09 +0000
+
 libxp (1:1.0.0.xsf1-2) unstable; urgency=low
 
   [ Brice Goglin ]
