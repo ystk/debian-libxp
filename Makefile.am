@@ -1,6 +1,4 @@
 # 
-#  $Id: Makefile.am,v 1.1 2005/05/18 20:33:36 sandmann Exp $
-# 
 #  Copyright © 2003 Keith Packard, Noah Levitt
 # 
 #  Permission to use, copy, modify, distribute, and sell this software and its
@@ -28,4 +26,12 @@ SUBDIRS = src man
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = xp.pc
 
-EXTRA_DIST = xp.pc.in autogen.sh
+EXTRA_DIST = xp.pc.in ChangeLog
+MAINTAINERCLEANFILES = ChangeLog
+
+.PHONY: ChangeLog
+
+ChangeLog:
+	$(CHANGELOG_CMD)
+
+dist-hook: ChangeLog
