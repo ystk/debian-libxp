@@ -2,33 +2,48 @@ Source: libxp
 Section: x11
 Priority: optional
 Maintainer: Debian X Strike Force <debian-x@lists.debian.org>
-Uploaders: Drew Parsons <dparsons@debian.org>
-Build-Depends: debhelper (>= 5), quilt, pkg-config, libx11-dev (>= 1:0.99.2-1), x11proto-print-dev, x11proto-xext-dev, libxext-dev, libxau-dev
-Standards-Version: 3.7.3
+Uploaders: Drew Parsons <dparsons@debian.org>, Cyril Brulebois <kibi@debian.org>
+Build-Depends:
+ debhelper (>= 8.1.3~),
+ quilt,
+ pkg-config,
+ libx11-dev (>= 1:0.99.2),
+ x11proto-print-dev,
+ x11proto-xext-dev,
+ libxext-dev,
+ libxau-dev,
+ xutils-dev (>= 1:7.5+4),
+Standards-Version: 3.9.1
 Vcs-Git: git://git.debian.org/git/pkg-xorg/lib/libxp
 Vcs-Browser: http://git.debian.org/?p=pkg-xorg/lib/libxp.git
 
 Package: libxp6
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
 Description: X Printing Extension (Xprint) client library
  libXp provides public APIs to allow client applications to render to
  non-display devices, making use of the X Print Service.
  .
  More information about X.Org can be found at:
  <URL:http://www.X.org>
- <URL:http://xorg.freedesktop.org>
- <URL:http://lists.freedesktop.org/mailman/listinfo/xorg>
  .
  This module can be found at
  git://anongit.freedesktop.org/git/xorg/lib/libXp
 
 Package: libxp6-dbg
-Section: libdevel
+Section: debug
 Priority: extra
 Architecture: any
-Depends: libxp6 (= ${binary:Version}), ${shlibs:Depends}
+Multi-Arch: same
+Depends:
+ libxp6 (= ${binary:Version}),
+ ${shlibs:Depends},
+ ${misc:Depends},
 Description: X Printing Extension (Xprint) client library (unstripped)
  libXp provides public APIs to allow client applications to render to
  non-display devices, making use of the X Print Service.
@@ -43,8 +58,6 @@ Description: X Printing Extension (Xprint) client library (unstripped)
  .
  More information about X.Org can be found at:
  <URL:http://www.X.org>
- <URL:http://xorg.freedesktop.org>
- <URL:http://lists.freedesktop.org/mailman/listinfo/xorg>
  .
  This module can be found at
  git://anongit.freedesktop.org/git/xorg/lib/libXp
@@ -52,8 +65,14 @@ Description: X Printing Extension (Xprint) client library (unstripped)
 Package: libxp-dev
 Section: libdevel
 Architecture: any
-Depends: libxp6 (= ${binary:Version}), libx11-dev (>= 2:1.0.0), x11proto-print-dev, libxext-dev, libxau-dev
-Pre-Depends: x11-common (>= 1:7.0.0)
+Multi-Arch: same
+Depends:
+ ${misc:Depends},
+ libxp6 (= ${binary:Version}),
+ libx11-dev (>= 2:1.0.0),
+ x11proto-print-dev,
+ libxext-dev,
+ libxau-dev,
 Description: X Printing Extension (Xprint) client library (development files)
  libXp provides public APIs to allow client applications to render to
  non-display devices, making use of the X Print Service.
@@ -62,8 +81,6 @@ Description: X Printing Extension (Xprint) client library (development files)
  .
  More information about X.Org can be found at:
  <URL:http://www.X.org>
- <URL:http://xorg.freedesktop.org>
- <URL:http://lists.freedesktop.org/mailman/listinfo/xorg>
  .
  This module can be found at
  git://anongit.freedesktop.org/git/xorg/lib/libXp

@@ -1,10 +1,9 @@
-/* $Xorg: XpAttr.c,v 1.4 2000/08/17 19:46:05 cpqbld Exp $ */
 /******************************************************************************
  ******************************************************************************
  **
  ** (c) Copyright 1996 Hewlett-Packard Company
  ** (c) Copyright 1996 International Business Machines Corp.
- ** (c) Copyright 1996 Sun Microsystems, Inc.
+ ** (c) Copyright 1996, Oracle and/or its affiliates. All rights reserved.
  ** (c) Copyright 1996 Novell, Inc.
  ** (c) Copyright 1996 Digital Equipment Corp.
  ** (c) Copyright 1996 Fujitsu Limited
@@ -34,7 +33,6 @@
  **
  ******************************************************************************
  *****************************************************************************/
-/* $XFree86: xc/lib/Xp/XpAttr.c,v 1.6 2001/01/17 19:43:01 dawes Exp $ */
 
 #define NEED_REPLIES
 
@@ -50,6 +48,7 @@
 
 #include <stdio.h>
 #include <sys/stat.h>
+#include <limits.h>
 
 char *
 XpGetAttributes (
@@ -85,17 +84,18 @@ XpGetAttributes (
     /*
      * Read pool and return to caller.
      */
-    buf = Xmalloc( (unsigned) rep.stringLen + 1 );
+    if (rep.stringLen < INT_MAX)
+        buf = Xmalloc(rep.stringLen + 1);
+    else
+        buf = NULL;
 
     if (!buf) {
-        UnlockDisplay(dpy);
-        SyncHandle();
-        return( (char *) NULL ); /* malloc error */
+        _XEatDataWords(dpy, rep.length);
     }
-
-    _XReadPad (dpy, (char *) buf, (long) rep.stringLen );
-
-    buf[rep.stringLen] = 0;
+    else {
+        _XReadPad (dpy, (char *) buf, rep.stringLen );
+        buf[rep.stringLen] = 0;
+    }
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -146,18 +146,18 @@ XpGetOneAttribute (
     /*
      * Read variable answer.
      */
-    buf = Xmalloc( (unsigned) rep.valueLen + 1 );
+    if (rep.valueLen < INT_MAX)
+        buf = Xmalloc(rep.valueLen + 1);
+    else
+        buf = NULL;
 
     if (!buf) {
-        UnlockDisplay(dpy);
-        SyncHandle();
-        return( (char *) NULL ); /* malloc error */
+        _XEatDataWords(dpy, rep.length);
     }
-
-    buf[rep.valueLen] = 0;
-
-    _XReadPad (dpy, (char *) buf, (long) rep.valueLen );
-    buf[rep.valueLen] = 0;
+    else {
+        _XReadPad (dpy, (char *) buf, rep.valueLen);
+        buf[rep.valueLen] = 0;
+    }
 
     UnlockDisplay(dpy);
     SyncHandle();

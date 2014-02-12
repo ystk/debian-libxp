@@ -1,3 +1,42 @@
+libxp (1:1.0.1-2+deb7u1) wheezy-security; urgency=high
+
+  * integer overflows calculating memory needs for replies [CVE-2013-2062]
+
+ -- Julien Cristau <jcristau@debian.org>  Tue, 14 May 2013 17:04:24 +0200
+
+libxp (1:1.0.1-2) unstable; urgency=low
+
+  [ Julien Cristau ]
+  * Drop Pre-Depends on x11-common, only needed for upgrades from the
+    monolith.
+
+  [ Steve Langasek ]
+  * Build for multiarch; thanks to Julian Taylor for the patch.
+    Closes: #639679.
+
+ -- Steve Langasek <vorlon@debian.org>  Sat, 22 Oct 2011 13:03:28 -0700
+
+libxp (1:1.0.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Update debian/copyright from upstream COPYING.
+  * Wrap Build-Depends.
+  * Add xutils-dev build-dep for xorg-macros (although we don't run
+    autoreconf — yet?).
+  * Wrap Depends.
+  * Update libxp6-dbg's section: libdevel → debug.
+  * Use --fail-missing instead of --list-missing in dh_install for
+    additional safety.
+  * Build in build/ instead of obj-$(DEB_BUILD_GNU_TYPE)/.
+  * Add myself to Uploaders.
+  * Fix a bunch of lintian warnings:
+    - Add ${misc:Depends} to all Depends.
+    - Remove Debian revision from the libx11-dev build-dep.
+    - Add a placeholder series file.
+  * Bump Standards-Version to 3.9.1 (no changes needed).
+
+ -- Cyril Brulebois <kibi@debian.org>  Tue, 08 Mar 2011 00:39:37 +0100
+
 libxp (1:1.0.0.xsf1-2) unstable; urgency=low
 
   [ Brice Goglin ]
