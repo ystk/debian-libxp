@@ -8,7 +8,7 @@
  ** (c) Copyright 1996 Digital Equipment Corp.
  ** (c) Copyright 1996 Fujitsu Limited
  ** (c) Copyright 1996 Hitachi, Ltd.
- ** 
+ **
  ** Permission is hereby granted, free of charge, to any person obtaining a copy
  ** of this software and associated documentation files (the "Software"), to deal
  ** in the Software without restriction, including without limitation the rights
@@ -48,6 +48,7 @@
 
 #include <stdio.h>
 #include <sys/stat.h>
+#include <limits.h>
 
 char *
 XpGetAttributes (
@@ -83,17 +84,18 @@ XpGetAttributes (
     /*
      * Read pool and return to caller.
      */
-    buf = Xmalloc( (unsigned) rep.stringLen + 1 );
+    if (rep.stringLen < INT_MAX)
+        buf = Xmalloc(rep.stringLen + 1);
+    else
+        buf = NULL;
 
     if (!buf) {
-        UnlockDisplay(dpy);
-        SyncHandle();
-        return( (char *) NULL ); /* malloc error */
+        _XEatDataWords(dpy, rep.length);
     }
-
-    _XReadPad (dpy, (char *) buf, (long) rep.stringLen );
-
-    buf[rep.stringLen] = 0;
+    else {
+        _XReadPad (dpy, (char *) buf, rep.stringLen );
+        buf[rep.stringLen] = 0;
+    }
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -144,18 +146,18 @@ XpGetOneAttribute (
     /*
      * Read variable answer.
      */
-    buf = Xmalloc( (unsigned) rep.valueLen + 1 );
+    if (rep.valueLen < INT_MAX)
+        buf = Xmalloc(rep.valueLen + 1);
+    else
+        buf = NULL;
 
     if (!buf) {
-        UnlockDisplay(dpy);
-        SyncHandle();
-        return( (char *) NULL ); /* malloc error */
+        _XEatDataWords(dpy, rep.length);
     }
-
-    buf[rep.valueLen] = 0;
-
-    _XReadPad (dpy, (char *) buf, (long) rep.valueLen );
-    buf[rep.valueLen] = 0;
+    else {
+        _XReadPad (dpy, (char *) buf, rep.valueLen);
+        buf[rep.valueLen] = 0;
+    }
 
     UnlockDisplay(dpy);
     SyncHandle();
