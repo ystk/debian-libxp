@@ -1,3 +1,9 @@
+libxp (1:1.0.0.xsf1-2+squeeze1+build1) squeeze-lts; urgency=medium
+
+  * Rebuild against libx11-dev fixed for CVE-2013-7439.
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Fri, 17 Apr 2015 18:35:50 +0200
+
 libxp (1:1.0.0.xsf1-2+squeeze1) oldstable-security; urgency=low
 
   * CVE-2013-2062
